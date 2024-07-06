@@ -18,5 +18,7 @@ def test_merge_point_intervals():
 	start_dt = pd.to_datetime('2021-01-01 10:00:00', utc=True)
 	points_raw = [[start_dt + pd.Timedelta("{}s".format(random.randint(0, 3600))), random.randint(0,1e6)] for _ in range(1000)]
 	points = pd.DataFrame(points_raw, columns=['ts', 'data'])
+
+	merged = tsops.merge_into_intervals(intervals, points, 'start_dt', 'end_dt', 'ts', how='outer')
 	import pdb;pdb.set_trace()
 

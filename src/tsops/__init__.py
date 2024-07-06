@@ -1,1 +1,1 @@
-from .main import merge_point_intervals
+from .main import merge_into_intervals
