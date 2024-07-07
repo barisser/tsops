@@ -2,9 +2,9 @@ import pandas as pd
 
 
 
-def merge_into_intervals(intervals_df, point_df,
+def merge_into_intervals(point_df, intervals_df,
 		interval_start_col, interval_end_col, point_col,
-		how='outer', **kwargs):
+		how='left', **kwargs):
 	starts1 = pd.DataFrame(intervals_df[interval_start_col])
 	starts1['source'] = 'interval'
 	starts1['src_index'] = starts1.index
@@ -30,14 +30,14 @@ def merge_into_intervals(intervals_df, point_df,
 	eindex = ends[ends.source=='points'][['src_index','end_index']]
 
 	ind = sindex.merge(eindex, on='src_index', how=how)
+	ind['match_index'] = (ind['start_index'] + ind['end_index']) / 2 # hack
 
 	df = ind.merge(point_df, left_on='src_index', right_index=True)
 
 	check = (ind['end_index'] - ind['start_index']).sum()
 	if check != 0:
 		raise Exception("Something went wrong in merge")
-	df = df.merge(intervals_df, left_on='start_index', right_index=True, **kwargs)
-	df.drop(['src_index', 'start_index', 'end_index'], inplace=True, axis=1)
-	
+	df = df.merge(intervals_df, left_on='match_index', right_index=True, how=how, **kwargs)
+	df.drop(['src_index', 'match_index', 'start_index', 'end_index'], inplace=True, axis=1)
 	return df
 
