@@ -1,12 +1,12 @@
-# Makefile for a PyPI package to run pytest on all files in src/tsops
+# Makefile for a PyPI package to run pytest on all files in tsops
 
 # Variables
 PACKAGE_NAME := tsops
-SRC_DIR := src/$(PACKAGE_NAME)
+SRC_DIR := $(PACKAGE_NAME)
 TEST_DIR := tests
 PYTHON := python3
 PIP := $(PYTHON) -m pip
-PYTEST := $(PYTHON) -m pytest -s -vvv --pdb tests --cov src
+PYTEST := $(PYTHON) -m pytest -s -vvv --pdb tests --cov tsops
 PIP_COMPILE := $(PYTHON) -m piptools compile
 
 # Default target
@@ -32,7 +32,7 @@ install: venv
 # Run tests using pytest
 .PHONY: test
 test: install
-	. venv/bin/activate && PYTHONPATH=src $(PYTEST) $(TEST_DIR)
+	. venv/bin/activate && PYTHONPATH=. $(PYTEST) $(TEST_DIR)
 
 # Clean the environment
 .PHONY: clean
@@ -44,7 +44,7 @@ clean:
 # Help message
 .PHONY: help
 help:
-	@echo "Makefile for running pytest on all files in src/tsops"
+	@echo "Makefile for running pytest on all files in tsops"
 	@echo ""
 	@echo "Usage:"
 	@echo "  make            - Run tests (default target)"
