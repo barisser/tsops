@@ -5,6 +5,13 @@ import pandas as pd
 def merge_into_intervals(point_df, intervals_df,
 		interval_start_col, interval_end_col, point_col,
 		how='left', **kwargs):
+	"""
+	Merges a point-in-time dataframe into a datetime-interval dataframe
+	such that the point-in-time is within the interval (left closed, right open).
+
+	Defaults to how='left'.  Lack of interval match will result in nulls unless
+	how='inner'.
+	"""
 	starts1 = pd.DataFrame(intervals_df[interval_start_col])
 	starts1['source'] = 'interval'
 	starts1['src_index'] = starts1.index

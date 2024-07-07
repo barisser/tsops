@@ -56,4 +56,4 @@ help:
 	@echo "  make help       - Show this help message"
 
 publish:
-	python3 -m build && python3 -m twine upload dist/*
+	rm -rf dist build *.egg-info && python3 -m build && python3 -m twine upload dist/* --verbose
