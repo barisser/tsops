@@ -54,3 +54,6 @@ help:
 	@echo "  make test       - Run tests using pytest"
 	@echo "  make clean      - Clean the environment"
 	@echo "  make help       - Show this help message"
+
+publish:
+	python3 -m build && python3 -m twine upload dist/*
